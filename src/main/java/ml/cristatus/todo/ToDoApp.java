@@ -37,6 +37,7 @@ public class ToDoApp {
     private static void REPL(Scanner in, PrintStream out) {
         ToDoRepository repository = new InMemoryToDoRepository();
         out.println(HELP);
+        //noinspection InfiniteLoopStatement
         while (true) {
             out.print(PROMPT);
             processInput(repository, in, out);
@@ -71,8 +72,12 @@ public class ToDoApp {
                 break;
             case "print":
                 out.println("The tasks are :");
-                repository.findAll().forEach(out::println);
+                for (ToDoItem toDoItem : repository.findAll()) {
+                    out.println(toDoItem);
+                }
                 break;
+            default:
+                out.println("Unrecognised command. Try again.");
         }
     }
 
