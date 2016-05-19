@@ -2,6 +2,7 @@
 
 This is the very first release of a Task Management App in the making. For now, it only has a CLI (Command-Line Interface). I'll be making a GUI very soon.
 
+[![Build Status](https://travis-ci.org/Subh0m0y/ToDoApp.svg?branch=master)](https://travis-ci.org/Subh0m0y/ToDoApp)
 ## Pre-requisites
 
 ### 1. Install Java (7+)
