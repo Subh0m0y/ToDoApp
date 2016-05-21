@@ -44,7 +44,13 @@ public class InMemoryToDoRepository implements ToDoRepository {
         toDos.replace(toDoItem.getId(), toDoItem);
     }
 
+    @Override
     public void delete(ToDoItem toDoItem) {
         toDos.remove(toDoItem.getId());
+    }
+
+    @Override
+    public void save() {
+        // no save mechanism here
     }
 }

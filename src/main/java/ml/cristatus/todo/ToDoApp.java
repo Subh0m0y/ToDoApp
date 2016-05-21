@@ -1,8 +1,8 @@
 package ml.cristatus.todo;
 
 import ml.cristatus.todo.model.ToDoItem;
-import ml.cristatus.todo.repository.InMemoryToDoRepository;
 import ml.cristatus.todo.repository.ToDoRepository;
+import ml.cristatus.todo.repository.ToDoRepositoryWithJSON;
 
 import java.io.PrintStream;
 import java.util.Scanner;
@@ -17,26 +17,27 @@ public class ToDoApp {
         REPL(new Scanner(System.in), System.out);
     }
 
-
     private static final String TITLE = "\n\n========ToDo App========\n\n";
     private static final String HELP = "The following commands are recognised:" +
-            "\n1. help\n\tDisplay this help message." +
-            "\n2. add <name>\n\tAdd a new Todo task with the given name and " +
+            "\n ► help\n\tDisplay this help message." +
+            "\n ► add <name>\n\tAdd a new Todo task with the given name and " +
             "also displays its corresponding ID." +
-            "\n3. get <id>\n\tDisplays the task with the given id." +
-            "\n4. mark <id>\n\tToggles the given task as completed or " +
+            "\n ► get <id>\n\tDisplays the task with the given id." +
+            "\n ► mark <id>\n\tToggles the given task as completed or " +
             "incomplete." +
-            "\n5. print\n\tDisplays all tasks in order of their creation." +
-            "\n6. update <id> <new text>\n\tUpdates the item with the given " +
+            "\n ► print\n\tDisplays all tasks in order of their creation." +
+            "\n ► update <id> <new text>\n\tUpdates the item with the given " +
             "id to store the new text." +
-            "\n7. del <id>\n\tDeletes the task with the given id." +
-            "\n8. exit\n\tExit the program.";
+            "\n ► del <id>\n\tDeletes the task with the given id." +
+            "\n ► exit\n\tExit the program.";
     private static final String PROMPT = ">> ";
     private static final String ABSENT = "No item found with the given ID.";
 
     private static void REPL(Scanner in, PrintStream out) {
-        ToDoRepository repository = new InMemoryToDoRepository();
+        ToDoRepository repository = new ToDoRepositoryWithJSON();
         out.println(HELP);
+        out.println("\n");
+        printAll(repository, out);
         //noinspection InfiniteLoopStatement
         while (true) {
             out.print(PROMPT);
@@ -53,6 +54,7 @@ public class ToDoApp {
                 out.println(HELP);
                 break;
             case "exit":
+                repository.save();
                 System.exit(0);
             case "add":
                 addItem(repository, in, out);
@@ -71,10 +73,7 @@ public class ToDoApp {
                 delete(repository, in, out);
                 break;
             case "print":
-                out.println("The tasks are :");
-                for (ToDoItem toDoItem : repository.findAll()) {
-                    out.println(toDoItem);
-                }
+                printAll(repository, out);
                 break;
             default:
                 out.println("Unrecognised command. Try again.");
@@ -84,6 +83,14 @@ public class ToDoApp {
     private static ToDoItem input(ToDoRepository repository, Scanner in) {
         Long id = in.nextLong();
         return repository.findById(id);
+    }
+
+    private static void printAll(ToDoRepository repository,
+                                 PrintStream out) {
+        out.println("The tasks are :");
+        for (ToDoItem toDoItem : repository.findAll()) {
+            out.println(toDoItem);
+        }
     }
 
     private static void addItem(ToDoRepository repository,
