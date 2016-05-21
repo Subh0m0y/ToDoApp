@@ -5,6 +5,7 @@ import ml.cristatus.todo.repository.ToDoRepository;
 import ml.cristatus.todo.repository.ToDoRepositoryWithJSON;
 
 import java.io.PrintStream;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -20,17 +21,17 @@ public class ToDoApp {
 
     private static final String TITLE = "\n\n========ToDo App========\n\n";
     private static final String HELP = "The following commands are recognised:" +
-            "\n ► help\n\tDisplay this help message." +
-            "\n ► add <name>\n\tAdd a new Todo task with the given name and " +
+            "\n - help\n\tDisplay this help message." +
+            "\n - add <name>\n\tAdd a new Todo task with the given name and " +
             "also displays its corresponding ID." +
-            "\n ► get <id>\n\tDisplays the task with the given id." +
-            "\n ► mark <id>\n\tToggles the given task as completed or " +
+            "\n - get <id>\n\tDisplays the task with the given id." +
+            "\n - mark <id>\n\tToggles the given task as completed or " +
             "incomplete." +
-            "\n ► print\n\tDisplays all tasks in order of their creation." +
-            "\n ► update <id> <new text>\n\tUpdates the item with the given " +
+            "\n - print\n\tDisplays all tasks in order of their creation." +
+            "\n - update <id> <new text>\n\tUpdates the item with the given " +
             "id to store the new text." +
-            "\n ► del <id>\n\tDeletes the task with the given id." +
-            "\n ► exit\n\tExit the program.";
+            "\n - del <id>\n\tDeletes the task with the given id." +
+            "\n - exit\n\tExit the program.";
     private static final String PROMPT = ">> ";
     private static final String ABSENT = "No item found with the given ID.";
 
@@ -82,8 +83,13 @@ public class ToDoApp {
     }
 
     private static ToDoItem input(ToDoRepository repository, Scanner in) {
-        Long id = in.nextLong();
-        return repository.findById(id);
+        try {
+            Long id = in.nextLong();
+            return repository.findById(id);
+        } catch (InputMismatchException exception) {
+            in.nextLine();  // skip the line, start afresh
+            return null;
+        }
     }
 
     private static void printAll(ToDoRepository repository,
@@ -102,7 +108,7 @@ public class ToDoApp {
     private static void addItem(ToDoRepository repository,
                                 Scanner in,
                                 PrintStream out) {
-        ToDoItem item = new ToDoItem(in.nextLine());
+        ToDoItem item = new ToDoItem(in.nextLine().trim());
         Long newId = repository.insert(item);
         out.println("New item added with id = " + newId);
     }
@@ -128,7 +134,7 @@ public class ToDoApp {
             out.println(ABSENT);
             return;
         }
-        item.setName(in.nextLine());
+        item.setName(in.nextLine().trim());
         out.println("Updated item #" + item.getId() + ": " + item);
         repository.update(item);
     }

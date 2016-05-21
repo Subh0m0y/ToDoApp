@@ -52,6 +52,6 @@ public class ToDoItem implements Comparable<ToDoItem> {
 
     @Override
     public String toString() {
-        return "• " + name + " [ID: " + id + " Completed: " + completed + "]";
+        return " - " + name + " [ID: " + id + " Completed: " + completed + "]";
     }
 }
