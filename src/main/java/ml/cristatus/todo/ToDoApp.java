@@ -5,6 +5,7 @@ import ml.cristatus.todo.repository.ToDoRepository;
 import ml.cristatus.todo.repository.ToDoRepositoryWithJSON;
 
 import java.io.PrintStream;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -87,8 +88,13 @@ public class ToDoApp {
 
     private static void printAll(ToDoRepository repository,
                                  PrintStream out) {
+        List<ToDoItem> items = repository.findAll();
+        if (items.isEmpty()) {
+            out.println("No tasks defined. Add some to get started.");
+            return;
+        }
         out.println("The tasks are :");
-        for (ToDoItem toDoItem : repository.findAll()) {
+        for (ToDoItem toDoItem : items) {
             out.println(toDoItem);
         }
     }
