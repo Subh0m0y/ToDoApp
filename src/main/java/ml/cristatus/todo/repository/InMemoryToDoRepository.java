@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * @author Subhomoy Haldar
- * @version 1.0
+ * @version 0.3
  */
 public class InMemoryToDoRepository implements ToDoRepository {
 

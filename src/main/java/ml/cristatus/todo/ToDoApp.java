@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 /**
  * @author Subhomoy Haldar
- * @version 1.0
+ * @version 0.3
  */
 public class ToDoApp {
     public static void main(String[] args) {

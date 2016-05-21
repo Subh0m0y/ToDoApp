@@ -1,5 +1,5 @@
 group 'ml.cristatus'
-version = '0.2'
+version = '0.3'
 
 apply plugin: 'java'
 

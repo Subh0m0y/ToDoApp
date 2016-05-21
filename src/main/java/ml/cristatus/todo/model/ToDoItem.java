@@ -2,7 +2,7 @@ package ml.cristatus.todo.model;
 
 /**
  * @author Subhomoy Haldar
- * @version 1.0
+ * @version 0.3
  */
 public class ToDoItem implements Comparable<ToDoItem> {
 
