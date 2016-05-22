@@ -31,6 +31,8 @@ public class ToDoApp {
             "\n - update <id> <new text>\n\tUpdates the item with the given " +
             "id to store the new text." +
             "\n - del <id>\n\tDeletes the task with the given id." +
+            "\n - clear\n\tDeletes all COMPLETED tasks." +
+            "\n - burn\n\tDeletes ALL tasks and empties the list." +
             "\n - exit\n\tExit the program.";
     private static final String PROMPT = ">> ";
     private static final String ABSENT = "No item found with the given ID.";
@@ -76,6 +78,12 @@ public class ToDoApp {
                 break;
             case "print":
                 printAll(repository, out);
+                break;
+            case "clear":
+                clear(repository, out);
+                break;
+            case "burn":
+                burn(repository, out);
                 break;
             default:
                 out.println("Unrecognised command. Try again.");
@@ -154,5 +162,27 @@ public class ToDoApp {
         }
         out.println("Deleted \"" + item + "\"");
         repository.delete(item);
+    }
+
+    private static void clear(ToDoRepository repository,
+                              PrintStream out) {
+        int count = 0;
+        for (ToDoItem item : repository.findAll()) {
+            if (item.isCompleted()) {
+                repository.delete(item);
+                count++;
+            }
+        }
+        out.println("List cleared. Deleted " + count + " items.");
+    }
+
+    public static void burn(ToDoRepository repository,
+                            PrintStream out) {
+        int count = 0;
+        for (ToDoItem item : repository.findAll()) {
+            repository.delete(item);
+            count++;
+        }
+        out.println("List emptied. Deleted " + count + " items.");
     }
 }

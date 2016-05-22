@@ -1,6 +1,7 @@
 package ml.cristatus.todo.repository;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import ml.cristatus.todo.model.ToDoItem;
 
 import java.io.*;
@@ -8,6 +9,10 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
+ * This implementation provides a save mechanism. It looks for a
+ * <code>toDoData.json</code> file in the <code>Documents</code> folder (or
+ * creates one if it can't find one).
+ *
  * @author Subhomoy Haldar
  * @version 0.3
  */
@@ -16,7 +21,7 @@ public class ToDoRepositoryWithJSON implements ToDoRepository {
     private static final File DEFAULT_FILE = new File(
             System.getProperty("user.home") + "/Documents/toDoData.json"
     );
-    private static final Gson GSON = new Gson();
+    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
     private InMemoryToDoRepository internalRepository;
 
