@@ -176,8 +176,8 @@ public class ToDoApp {
         out.println("List cleared. Deleted " + count + " items.");
     }
 
-    public static void burn(ToDoRepository repository,
-                            PrintStream out) {
+    private static void burn(ToDoRepository repository,
+                             PrintStream out) {
         int count = 0;
         for (ToDoItem item : repository.findAll()) {
             repository.delete(item);

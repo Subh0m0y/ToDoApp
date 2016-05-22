@@ -20,9 +20,16 @@ import java.util.concurrent.atomic.AtomicLong;
 @SuppressWarnings("WeakerAccess")
 public class InMemoryToDoRepository implements ToDoRepository {
 
-    private AtomicLong currentId = new AtomicLong();
-    private ConcurrentMap<Long, ToDoItem> toDos
-            = new ConcurrentHashMap<>();
+    private AtomicLong currentId;
+    private ConcurrentMap<Long, ToDoItem> toDos;
+
+    /**
+     * Creates a new, empty repository with currentID at 0.
+     */
+    public InMemoryToDoRepository() {
+        currentId = new AtomicLong();
+        toDos = new ConcurrentHashMap<>();
+    }
 
     /**
      * {@inheritDoc}
