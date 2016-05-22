@@ -32,16 +32,17 @@ public class InMemoryToDoRepository implements ToDoRepository {
     }
 
     @Override
-    public Long insert(ToDoItem toDoItem) {
+    public Long insert(String text) {
         Long id = currentId.incrementAndGet();
-        toDoItem.setId(id);
-        toDos.putIfAbsent(id, toDoItem);
+        toDos.putIfAbsent(id, new ToDoItem(text, id));
         return id;
     }
 
     @Override
     public void update(ToDoItem toDoItem) {
-        toDos.replace(toDoItem.getId(), toDoItem);
+        if (toDos.get(toDoItem.getId()) != null) {
+            toDos.replace(toDoItem.getId(), toDoItem);
+        }
     }
 
     @Override

@@ -108,9 +108,9 @@ public class ToDoApp {
     private static void addItem(ToDoRepository repository,
                                 Scanner in,
                                 PrintStream out) {
-        ToDoItem item = new ToDoItem(in.nextLine().trim());
-        Long newId = repository.insert(item);
-        out.println("New item added with id = " + newId);
+        String next = in.nextLine().trim();
+        Long newId = repository.insert(next);
+        out.println("New item added with ID = " + newId);
     }
 
     private static void mark(ToDoRepository repository,

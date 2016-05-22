@@ -16,14 +16,15 @@ public class ToDoRepositoryWithJSON implements ToDoRepository {
     private static final File DEFAULT_FILE = new File(
             System.getProperty("user.home") + "/Documents/toDoData.json"
     );
+    private static final Gson GSON = new Gson();
 
     private InMemoryToDoRepository internalRepository;
 
     public ToDoRepositoryWithJSON() {
         if (DEFAULT_FILE.exists()) {
             String data = getDataFrom(DEFAULT_FILE);
-            internalRepository = new Gson()
-                    .fromJson(data, InMemoryToDoRepository.class);
+            internalRepository =
+                    GSON.fromJson(data, InMemoryToDoRepository.class);
         } else {
             internalRepository = new InMemoryToDoRepository();
         }
@@ -43,9 +44,9 @@ public class ToDoRepositoryWithJSON implements ToDoRepository {
     @Override
     public void save() {
         try (BufferedWriter writer = new BufferedWriter(
-                new FileWriter(DEFAULT_FILE, false)
+                new FileWriter(DEFAULT_FILE, false) // overwrite the file
         )) {
-            writer.write(new Gson().toJson(internalRepository));
+            writer.write(GSON.toJson(internalRepository));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -62,8 +63,8 @@ public class ToDoRepositoryWithJSON implements ToDoRepository {
     }
 
     @Override
-    public Long insert(ToDoItem toDoItem) {
-        return internalRepository.insert(toDoItem);
+    public Long insert(String text) {
+        return internalRepository.insert(text);
     }
 
     @Override
