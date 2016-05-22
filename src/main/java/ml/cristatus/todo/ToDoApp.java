@@ -122,7 +122,7 @@ public class ToDoApp {
             return;
         }
         item.setCompleted(!item.isCompleted());
-        out.println("State of item with id = " + item.getId() + " flipped.");
+        out.println("State of item with ID = " + item.getId() + " flipped.");
         repository.update(item);
     }
 
@@ -134,7 +134,12 @@ public class ToDoApp {
             out.println(ABSENT);
             return;
         }
-        item.setName(in.nextLine().trim());
+        String name = in.nextLine().trim();
+        if (name.isEmpty()) {
+            out.println("Please enter some text for the update.");
+            return;
+        }
+        item.setName(name);
         out.println("Updated item #" + item.getId() + ": " + item);
         repository.update(item);
     }

@@ -13,6 +13,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author Subhomoy Haldar
  * @version 0.3
  */
+@SuppressWarnings("WeakerAccess")
 public class InMemoryToDoRepository implements ToDoRepository {
 
     private AtomicLong currentId = new AtomicLong();
