@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
+ * The main entry point for the Application. For now, this is just a CLI.
+ *
  * @author Subhomoy Haldar
  * @version 0.3
  */
@@ -37,6 +39,12 @@ public class ToDoApp {
     private static final String PROMPT = ">> ";
     private static final String ABSENT = "No item found with the given ID.";
 
+    /**
+     * The "Read, Evaluate, Print, Loop" (REPL) method.
+     *
+     * @param in  The input source.
+     * @param out The {@link PrintStream} to print to.
+     */
     private static void REPL(Scanner in, PrintStream out) {
         ToDoRepository repository = new ToDoRepositoryWithJSON();
         out.println(HELP);
@@ -49,6 +57,14 @@ public class ToDoApp {
         }
     }
 
+    /**
+     * The method that is responsible for the processing of commands and
+     * delegating control to the necessary methods.
+     *
+     * @param repository The repository to work with.
+     * @param in         The input source.
+     * @param out        The {@link PrintStream} to print to.
+     */
     private static void processInput(ToDoRepository repository,
                                      Scanner in,
                                      PrintStream out) {
@@ -90,6 +106,14 @@ public class ToDoApp {
         }
     }
 
+    /**
+     * Tries to input a valid ID and returns the corresponding ToDoItem in
+     * the repository. If anything fails, it returns null.
+     *
+     * @param repository The repository to work with.
+     * @param in         The input source.
+     * @return The ToDoItem corresponding to the ID inputted.
+     */
     private static ToDoItem input(ToDoRepository repository, Scanner in) {
         try {
             Long id = in.nextLong();
@@ -100,6 +124,12 @@ public class ToDoApp {
         }
     }
 
+    /**
+     * Prints all the items in the list.
+     *
+     * @param repository The repository to work with.
+     * @param out        The {@link PrintStream} to print to.
+     */
     private static void printAll(ToDoRepository repository,
                                  PrintStream out) {
         List<ToDoItem> items = repository.findAll();
@@ -113,6 +143,13 @@ public class ToDoApp {
         }
     }
 
+    /**
+     * Adds a new item to the repository.
+     *
+     * @param repository The repository to work with.
+     * @param in         The input source.
+     * @param out        The {@link PrintStream} to print to.
+     */
     private static void addItem(ToDoRepository repository,
                                 Scanner in,
                                 PrintStream out) {
@@ -121,6 +158,13 @@ public class ToDoApp {
         out.println("New item added with ID = " + newId);
     }
 
+    /**
+     * Toggles the state of the item with the input ID (if valid).
+     *
+     * @param repository The repository to work with.
+     * @param in         The input source.
+     * @param out        The {@link PrintStream} to print to.
+     */
     private static void mark(ToDoRepository repository,
                              Scanner in,
                              PrintStream out) {
@@ -134,6 +178,13 @@ public class ToDoApp {
         repository.update(item);
     }
 
+    /**
+     * Updates the item with the input ID (if valid).
+     *
+     * @param repository The repository to work with.
+     * @param in         The input source.
+     * @param out        The {@link PrintStream} to print to.
+     */
     private static void update(ToDoRepository repository,
                                Scanner in,
                                PrintStream out) {
@@ -152,6 +203,13 @@ public class ToDoApp {
         repository.update(item);
     }
 
+    /**
+     * Deletes the item with the input ID (if valid).
+     *
+     * @param repository The repository to work with.
+     * @param in         The input source.
+     * @param out        The {@link PrintStream} to print to.
+     */
     private static void delete(ToDoRepository repository,
                                Scanner in,
                                PrintStream out) {
@@ -164,6 +222,12 @@ public class ToDoApp {
         repository.delete(item);
     }
 
+    /**
+     * Clears all the completed tasks from the repository.
+     *
+     * @param repository The repository to work with.
+     * @param out        The {@link PrintStream} to print to.
+     */
     private static void clear(ToDoRepository repository,
                               PrintStream out) {
         int count = 0;
@@ -176,6 +240,12 @@ public class ToDoApp {
         out.println("List cleared. Deleted " + count + " items.");
     }
 
+    /**
+     * "Burns" the repository, purges it.
+     *
+     * @param repository The repository to purge.
+     * @param out        The {@link PrintStream} to print to.
+     */
     private static void burn(ToDoRepository repository,
                              PrintStream out) {
         int count = 0;
